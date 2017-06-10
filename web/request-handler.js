@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs');
 var archive = require('../helpers/archive-helpers');
 var http = require('./http-helpers.js');
-var index = archive.paths.siteAssets + '/index.html';
+var publicRoot = archive.paths.siteAssets + '/';
 
 // require more modules/folders here!
 exports.handleRequest = function (req, res) {
@@ -13,17 +13,16 @@ exports.handleRequest = function (req, res) {
       http.headers['Content-Type'] = 'text/html';
       res.writeHead(statusCode, http.headers);
 
-      var data = http.serveAssets(res, index, function(data) {
+      http.serveAssets(res, publicRoot + 'index.html', function(data) {
         res.end(data);
       });
-
     } else if (req.method === 'POST') {
       statusCode = 201;
       http.headers['Content-Type'] = 'text/html';
       res.writeHead(statusCode, http.headers);
-      // here, define the place to go to      
+      // if it is in archive (already existing function of archive.isUrlArchived)
+        // as callback: serve the asset (already http.serveAssets(req.url, res)
       res.end(); // send me to the posted page archive
-
     } else {
       console.log('DELETE, OPTIONS, PUT not supported');
     }
