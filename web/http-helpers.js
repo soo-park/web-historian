@@ -14,13 +14,22 @@ exports.serveAssets = function(res, asset, callback) {
   // Write some code here that helps serve up your static files!
   // (Static files are things like html (yours or archived from others...),
   // css, or anything that doesn't change often.)
+  
+  var fileLoc = path.resolve(asset);
+  fileLoc = path.join(fileLoc, res.url);
 
-  // asset is the address from the request
-  // response is response
-  // this function atttches the new address to our original asset
-  // and send it back with the call back and response that is updated with response that has new index.html?
+  fs.readFile(fileLoc, function(err, data) {
+    if (err) {
+      res.writeHead(404, 'Not Found');
+      res.write('404: File Not Found!');
+      return res.end();
+    }
 
-  callback();
+    res.statusCode = 200;
+
+    res.write(data);
+    return res.end();
+  });
 };
 
 

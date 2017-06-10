@@ -42,11 +42,7 @@ exports.readListOfUrls = function(callback) {
 
 exports.isUrlInList = function(url, callback) {
   exports.readListOfUrls(function (urls) {
-    if (urls.indexOf(url) === -1) {
-      callback(false);
-    } else {
-      callback(true);
-    }
+    urls.indexOf(url) === -1 ? callback(false) : callback(true);
   });
 };
 
@@ -67,4 +63,6 @@ exports.isUrlArchived = function(url, callback) {
 };
 
 exports.downloadUrls = function(urls) {
+  // exports.isUrlArchived();
+
 };
