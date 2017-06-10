@@ -13,13 +13,10 @@ exports.handleRequest = function (req, res) {
       http.headers['Content-Type'] = 'text/html';
       res.writeHead(statusCode, http.headers);
 
-      var data = fs.readFile(index, 'utf8', function(err, data) {
-        if (err) {
-          console.log('fs.readFile failed :(\n', err);
-        } else {
-          res.end(data);
-        }
+      var data = http.serveAssets(res, index, function(data) {
+        res.end(data);
       });
+
     } else if (req.method === 'POST') {
       statusCode = 201;
       http.headers['Content-Type'] = 'text/html';
@@ -36,12 +33,3 @@ exports.handleRequest = function (req, res) {
     res.end('404: not found');
   }
 };
-
-    // if that request address is in our list       // get the 
-    // isUrlInList(req.url, function() { console.log('yea'); });
-    //   decorate res such that it leads to index.html
-    // else if ( req.url in archivedPaths)
-    //   go to our archived index.html that represents to url requested  
-    // else
-    //   change to loading.html while
-    //   we go to the address and archive the page

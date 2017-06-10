@@ -11,27 +11,23 @@ exports.headers = {
 };
 
 exports.serveAssets = function(res, asset, callback) {
-  // Write some code here that helps serve up your static files!
+ // Write some code here that helps serve up your static files!
   // (Static files are things like html (yours or archived from others...),
   // css, or anything that doesn't change often.)
-  
-  var fileLoc = path.resolve(asset);
-  fileLoc = path.join(fileLoc, res.url);
-
-  fs.readFile(fileLoc, function(err, data) {
+  var data = fs.readFile(asset, 'utf8', function(err, data) {
     if (err) {
-      res.writeHead(404, 'Not Found');
-      res.write('404: File Not Found!');
-      return res.end();
+      console.log('fs.readFile failed :(\n', err);
+    } else {
+      callback(data);
     }
-
-    res.statusCode = 200;
-
-    res.write(data);
-    return res.end();
   });
 };
 
-
-
-// As you progress, keep thinking about what helper functions you can put here!
+// // for the archive, check if the url is there, and if it is there, return the true or false
+// exports.inArchive = archive.isUrlArchived(req.url, function(exists) {
+//   if (exists) {
+//     // then you make response like this
+//   }
+//     // else send response with 404
+// });
+// console.log('inArchive', inArchive);
