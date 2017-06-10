@@ -77,7 +77,7 @@ xdescribe('server', function() {
 });
 
 describe('archive helpers', function() {
-  describe('#readListOfUrls', function () {
+  xdescribe('#readListOfUrls', function () {
     it('should read urls from sites.txt', function (done) {
       var urlArray = ['example1.com', 'example2.com'];
       fs.writeFileSync(archive.paths.list, urlArray.join('\n'));
@@ -89,7 +89,7 @@ describe('archive helpers', function() {
     });
   });
 
-  describe('#isUrlInList', function () {
+  xdescribe('#isUrlInList', function () {
     it('should check if a url is in the list', function (done) {
       var urlArray = ['example1.com', 'example2.com'];
       fs.writeFileSync(archive.paths.list, urlArray.join('\n'));
@@ -109,7 +109,7 @@ describe('archive helpers', function() {
     });
   });
 
-  xdescribe('#addUrlToList', function () {
+  describe('#addUrlToList', function () {
     it('should add a url to the list', function (done) {
       var urlArray = ['example1.com', 'example2.com\n'];
       fs.writeFileSync(archive.paths.list, urlArray.join('\n'));
@@ -123,7 +123,7 @@ describe('archive helpers', function() {
     });
   });
 
-  xdescribe('#isUrlArchived', function () {
+  describe('#isUrlArchived', function () {
     it('should check if a url is archived', function (done) {
       fs.writeFileSync(archive.paths.archivedSites + '/www.example.com', 'blah blah');
 
@@ -142,7 +142,7 @@ describe('archive helpers', function() {
     });
   });
 
-  xdescribe('#downloadUrls', function () {
+  describe('#downloadUrls', function () {
     it('should download all pending urls in the list', function (done) {
       var urlArray = ['www.example.com', 'www.google.com'];
       archive.downloadUrls(urlArray);

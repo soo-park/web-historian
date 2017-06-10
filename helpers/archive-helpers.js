@@ -27,28 +27,37 @@ exports.initialize = function(pathsObj) {
 
 exports.readListOfUrls = function(callback) {
   
-  fs.readFile(exports.paths.list, 'utf8', function (err, content) {
+  fs.readFile(exports.paths.list, 'utf8', function (err, urls) {
     if (err) {
-      callback(err, content);
+      callback(err, urls);
       console.log('fs.readFile failed :(\n', err);
     } else {
-      content = content.split('\n');
-      console.log('fs.readFile successfully completed :)\n', content);
-      callback(content);
+      urls = urls.split('\n');
+      console.log('fs.readFile successfully completed :)\n', urls);
+      callback(urls);
     }
   });
-
-
 
 };
 
 exports.isUrlInList = function(url, callback) {
+  exports.readListOfUrls(function (urls) {
+    if (urls.indexOf(url) === -1) {
+      callback(false);
+    } else {
+      callback(true);
+    }
+  });
 };
 
 exports.addUrlToList = function(url, callback) {
+  fs.appendFile(exports.paths.list, url, 'utf8', callback);
 };
 
 exports.isUrlArchived = function(url, callback) {
+  exports.isUrlInList(url, function(urls) {
+    callback(urls);
+  });
 };
 
 exports.downloadUrls = function(urls) {
