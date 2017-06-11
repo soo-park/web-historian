@@ -100,7 +100,7 @@ exports.getUrlData = function(url, callback) {
       bodyChunks.push(chunk);
     }).on('end', function() {
       var body = Buffer.concat(bodyChunks);
-      console.log('BODY: ' + body);
+      // console.log('BODY: ' + body);
       // ...and/or process the entire body here.
       callback(body);
     });

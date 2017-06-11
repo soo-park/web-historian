@@ -20,19 +20,19 @@ exports.handleRequest = function (req, res) {
       http.headers['Content-Type'] = 'text/html';
       res.writeHead(statusCode, http.headers);
 
-      // archive.isUrlArchived(req.url, function(result) {
-      //   if (result) {
-      //     http.serveAssets(res, req.url, function(data) {
-      //       res.end(data);
-      //     });
-      //   } else {
-      //     archive.downloadUrls(req.url, function(data) {
-      //       http.serveAssets(res, req.url, function(data) {
-      //         res.end(data);
-      //       });
-      //     });          
-      //   }
-      // });
+      archive.isUrlArchived(req.url, function(result) {
+        if (result) {
+          http.serveAssets(res, req.url, function(data) {
+            res.end(data);
+          });
+        } else {
+          archive.downloadUrls(req.url, function(data) {
+            http.serveAssets(res, req.url, function(data) {
+              res.end(data);
+            });
+          });          
+        }
+      });
 
       res.end(); // send me to the posted page archive
 
