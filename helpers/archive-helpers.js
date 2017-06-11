@@ -34,7 +34,7 @@ exports.readListOfUrls = function(callback) {
       console.log('fs.readFile failed :(\n', err);
     } else {
       urls = urls.split('\n');
-      console.log('fs.readFile successfully completed :)\n', urls);
+      // console.log('fs.readFile successfully completed :)\n', urls);
       callback(urls);
     }
   });
@@ -48,7 +48,7 @@ exports.isUrlInList = function(url, callback) {
 };
 
 exports.addUrlToList = function(url, callback) {
-  fs.appendFile(exports.paths.list, url, 'utf8', callback);
+  fs.appendFile(exports.paths.list, '\n' + url, 'utf8', callback);
 };
 
 exports.isUrlArchived = function(url, callback) {
@@ -76,7 +76,8 @@ exports.downloadUrls = function(urls) {
         if (err) {
           throw err;
         }
-        console.log('The file has been saved!');
+        exports.addUrlToList(url, () => {});
+        // console.log('The file has been saved!');
       });
     });
   });
@@ -90,8 +91,8 @@ exports.getUrlData = function(url, callback) {
   };
 
   var req = http.get(options, function(res) {
-    console.log('STATUS: ' + res.statusCode);
-    console.log('HEADERS: ' + JSON.stringify(res.headers));
+    // console.log('STATUS: ' + res.statusCode);
+    // console.log('HEADERS: ' + JSON.stringify(res.headers));
 
     // Buffer the body entirely for processing as a whole.
     var bodyChunks = [];
