@@ -23,26 +23,4 @@ exports.serveAssets = function(res, asset, callback) {
       callback(data);
     }
   });
-  // archive.isUrlArchived(asset, function(result) {
-  //   // if result
-  //     // serve the existing asset
-  //   // else
-  //     // change current page to loading
-  //     // archive.downlaodUrls
-};
-
-
-// parse the asset
-exports.makeFile = function(asset, callback) {
-  exports.getUrlData(url, content => {
-    //fs.writeFile to location in archive/sites/urlname
-    fs.writeFile(url, content, err => {
-      if (err) {
-        throw err;
-      }
-      // do something!!! asset has to be the URL coming in from the response
-      exports.serveAssets(asset, callback); // do not delete
-      console.log(exports.paths.archivedSites, urls);
-    });
-  }); 
 };

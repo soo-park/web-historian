@@ -48,7 +48,8 @@ exports.isUrlInList = function(url, callback) {
 };
 
 exports.addUrlToList = function(url, callback) {
-  fs.appendFile(exports.paths.list, '\n' + url, 'utf8', callback);
+  console.log(exports.paths.list);
+  fs.appendFile(exports.paths.list, `\n${url}`, 'utf8', callback);
 };
 
 exports.isUrlArchived = function(url, callback) {
