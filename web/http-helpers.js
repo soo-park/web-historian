@@ -16,19 +16,6 @@ exports.serveAssets = function(res, asset, callback) {
   // (Static files are things like html (yours or archived from others...),
   // css, or anything that doesn't change often.)
 
-  archive.isUrlArchived(asset, function(result) {
-    // if result
-      // serve the existing asset
-    // else
-      // change current page to loading
-      // archive.downlaodUrls
-  });
-
-  exports.parseData(asset, callback);
-};
-
-// parse the asset
-exports.parseData = function(asset, callback) {
   var data = fs.readFile(asset, 'utf8', function(err, data) {
     if (err) {
       console.log('fs.readFile failed :(\n', err);
@@ -36,4 +23,26 @@ exports.parseData = function(asset, callback) {
       callback(data);
     }
   });
+  // archive.isUrlArchived(asset, function(result) {
+  //   // if result
+  //     // serve the existing asset
+  //   // else
+  //     // change current page to loading
+  //     // archive.downlaodUrls
+};
+
+
+// parse the asset
+exports.makeFile = function(asset, callback) {
+  exports.getUrlData(url, content => {
+    //fs.writeFile to location in archive/sites/urlname
+    fs.writeFile(url, content, err => {
+      if (err) {
+        throw err;
+      }
+      // do something!!! asset has to be the URL coming in from the response
+      exports.serveAssets(asset, callback); // do not delete
+      console.log(exports.paths.archivedSites, urls);
+    });
+  }); 
 };

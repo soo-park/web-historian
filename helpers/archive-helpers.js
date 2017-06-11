@@ -64,50 +64,45 @@ exports.isUrlArchived = function(url, callback) {
 };
 
 exports.downloadUrls = function(urls) {
-  exports.readListOfUrls(function(urls) {
-    // for each URL in the list, call isUrlArchived
-    urls.forEach(
-      url => {
-        exports.isUrlArchived(url, result => {
-          if (!result) {
-            exports.getUrlData(url, content => {
-              //fs.writeFile to location in archive/sites/urlname
-              fs.writeFile(url, content, err => {
-                if (err) {
-                  throw err;
-                }
-                // do something!!!
-                console.log(exports.paths.archivedSites, urls);
-              });
-            }); 
-          }
-        });
-      }
-    );
+  // make new file by the same title of the url in the sites folder
+  urls.forEach(url => {
+    if (!fs.existsSync(exports.paths.archivedSites + '/' + url)) {
+      // We use fs.openSync to create the file
+      var file = fs.openSync(exports.paths.archivedSites + '/' + url, 'w');
+      fs.closeSync(file);
+    }
+    exports.getUrlData(url, body => {
+      fs.writeFile(exports.paths.archivedSites + '/' + url, body, (err) => {
+        if (err) {
+          throw err;
+        }
+        console.log('The file has been saved!');
+      });
+    });
   });
 };
 
+// gets data from on particular url, and parse it, and send it to the callback
 exports.getUrlData = function(url, callback) {
-
   var options = {
     host: url,
-    port: 80,
-    path: '/'
+    path: '/index.html'
   };
 
-  var content = '';   
+  var req = http.get(options, function(res) {
+    console.log('STATUS: ' + res.statusCode);
+    console.log('HEADERS: ' + JSON.stringify(res.headers));
 
-  var req = http.request(options, function(res) {
-    res.setEncoding('utf8');
-    res.on('data', function (chunk) {
-      content += chunk;
-    });
-
-    res.on('end', function () {
-      callback(content);
+    // Buffer the body entirely for processing as a whole.
+    var bodyChunks = [];
+    res.on('data', function(chunk) {
+      // You can process streamed parts here...
+      bodyChunks.push(chunk);
+    }).on('end', function() {
+      var body = Buffer.concat(bodyChunks);
+      console.log('BODY: ' + body);
+      // ...and/or process the entire body here.
+      callback(body);
     });
   });
-
-  req.end();
 };
-

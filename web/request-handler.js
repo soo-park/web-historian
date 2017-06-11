@@ -7,12 +7,11 @@ var publicRoot = archive.paths.siteAssets + '/';
 // require more modules/folders here!
 exports.handleRequest = function (req, res) {
 
-  if (req.url === '/') {
+  if (req.url === '/') { // || req.url is there in archive) {
     if (req.method === 'GET') {
       statusCode = 200;
       http.headers['Content-Type'] = 'text/html';
       res.writeHead(statusCode, http.headers);
-
       http.serveAssets(res, publicRoot + 'index.html', function(data) {
         res.end(data);
       });
@@ -20,9 +19,23 @@ exports.handleRequest = function (req, res) {
       statusCode = 201;
       http.headers['Content-Type'] = 'text/html';
       res.writeHead(statusCode, http.headers);
-      // if it is in archive (already existing function of archive.isUrlArchived)
-        // as callback: serve the asset (already http.serveAssets(req.url, res)
+
+      // archive.isUrlArchived(req.url, function(result) {
+      //   if (result) {
+      //     http.serveAssets(res, req.url, function(data) {
+      //       res.end(data);
+      //     });
+      //   } else {
+      //     archive.downloadUrls(req.url, function(data) {
+      //       http.serveAssets(res, req.url, function(data) {
+      //         res.end(data);
+      //       });
+      //     });          
+      //   }
+      // });
+
       res.end(); // send me to the posted page archive
+
     } else {
       console.log('DELETE, OPTIONS, PUT not supported');
     }
